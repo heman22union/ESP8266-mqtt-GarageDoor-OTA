@@ -6,6 +6,7 @@
 #include <ESP8266mDNS.h>
 #include <ESP8266HTTPUpdateServer.h>
 
+
 ////**********START CUSTOM PARAMS******************//
 
 //Define parameters for the http firmware update
@@ -14,16 +15,27 @@ const char* update_path = "/WebFirmwareUpgrade";
 const char* update_username = "admin";
 const char* update_password = "YourPassWordHere";
 
+/*
+ * not sure if this is working - was original code and couldn't get the relay to turn on
+ 
 //Define the pins
 #define RELAY_PIN 5
 #define DOOR_PIN 4
+*/
+ 
+//Define the pins
+const int RELAY_PIN = 5;
+const int DOOR_PIN = 4;
 
 //Define MQTT Params. If you don't need to 
-#define mqtt_server "MQTT Broker IP Address"
+#define mqtt_server "10.29.10.20"
 #define door_topic "garage/door"
 #define button_topic "garage/button"
-const char* mqtt_user = "mqtt_user"; 
-const char* mqtt_pass = "mqtt_pass";
+//const char* mqtt_user = "mqtt_user"; 
+//const char* mqtt_pass = "mqtt_pass";
+
+const char* ssid = "HESKIS-TRAVEL";
+const char* password = "(*)@DAniEL";
 
 //************END CUSTOM PARAMS********************//
 //This can be used to output the date the code was compiled
@@ -52,9 +64,9 @@ long lastMsg = 0;
 
 void setup() {
   //Set Relay(output) and Door(input) pins
-  pinMode(RELAY_PIN, OUTPUT);
-  pinMode(RELAY_PIN, LOW);
-  pinMode(DOOR_PIN, INPUT);
+  pinMode(5, OUTPUT);
+  pinMode(5, LOW);
+  pinMode(4, INPUT);
 
   Serial.begin(115200);
 
@@ -96,9 +108,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
     {
       //'click' the relay
       Serial.println("ON");
-      pinMode(RELAY_PIN, HIGH);
-      delay(600);
-      pinMode(RELAY_PIN, LOW);
+      digitalWrite(5, HIGH);
+      delay(6000);
+      digitalWrite(5, LOW);
     }
   }
 }
@@ -106,9 +118,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void checkDoorState() {
   //Checks if the door state has changed, and MQTT pub the change
   last_state = door_state; //get previous state of door
-  if (digitalRead(DOOR_PIN) == 0) // get new state of door
+  if (digitalRead(4) == 0) // get new state of door
     door_state = "OPENED";
-  else if (digitalRead(DOOR_PIN) == 1)
+  else if (digitalRead(4) == 1)
     door_state = "CLOSED"; 
 
   if (last_state != door_state) { // if the state has changed then publish the change
