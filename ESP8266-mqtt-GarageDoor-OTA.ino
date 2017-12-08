@@ -65,7 +65,7 @@ long lastMsg = 0;
 void setup() {
   //Set Relay(output) and Door(input) pins
   pinMode(5, OUTPUT);
-  pinMode(5, LOW);
+  digitalWrite (5, LOW);
   pinMode(4, INPUT);
 
   Serial.begin(115200);
