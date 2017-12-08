@@ -31,8 +31,8 @@ const int DOOR_PIN = 4;
 #define mqtt_server "10.29.10.20"
 #define door_topic "garage/door"
 #define button_topic "garage/button"
-//const char* mqtt_user = "mqtt_user"; 
-//const char* mqtt_pass = "mqtt_pass";
+const char* mqtt_user = "mqtt_user"; 
+const char* mqtt_pass = "mqtt_pass";
 
 const char* ssid = "HESKIS-TRAVEL";
 const char* password = "(*)@DAniEL";
