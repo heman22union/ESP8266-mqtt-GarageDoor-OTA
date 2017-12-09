@@ -127,12 +127,14 @@ void checkDoorState() {
     client.publish(door_topic, door_state);
     Serial.println(door_state);
   }
+
+  //comment othis out - not needed
   //pub every minute, regardless of a change.
-  long now = millis();
+  /*long now = millis();
   if (now - lastMsg > 60000) {
     lastMsg = now;
     client.publish(door_topic, door_state);
-  }
+  }*/
 }
 
 void reconnect() {
